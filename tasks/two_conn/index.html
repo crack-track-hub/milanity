@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chrome HTTP API to Modbus TCP Flow Diagram</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f4f6f9;
+            color: #333;
+            padding: 40px;
+            line-height: 1.4;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 10px;
+            font-size: 24px;
+        }
+        pre {
+            background: #2d3748;
+            color: #edf2f7;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 13px;
+        }
+        .section-title {
+            font-size: 18px;
+            color: #2b6cb0;
+            margin-top: 30px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 5px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        strong {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>CHROME BROWSER -> BACKEND SERVER -> MODBUS HARDWARE FLOW</h1>
+    
+    <pre>
+       [ CHROME BROWSER ]
+               │
+               ▼ (User hits URL with queries)
+  URL: http://localhost:8080/get_reading?device=Device_A&slave_id=1
+               │
+ ──────────────┼──────────────────────────────────────────────────────────
+               ▼ (Hits C++ HTTP Network Stack)
+┌────────────────────────────────────────────────────────────────────────┐
+│ svr.Get("/get_reading", [&](const auto& req, auto& res) { ... })       │
+│  ├─► req.get_param_value("device")   ──► Extracts: "Device_A"          │
+│  └─► req.get_param_value("slave_id") ──► Extracts: "1"                 │
+└────────────────────────────────────────────────────────────────────────┘
+               │
+               ▼ (Dynamic Vector Device Matching)
+┌────────────────────────────────────────────────────────────────────────┐
+│ for (auto& device : devices) {                                         │
+│  └─► if (device.name() == targetDevice) ──► Target Found!              │
+└────────────────────────────────────────────────────────────────────────┘
+               │
+               ▼ (Triggers Core Operational Execution Pipeline)
+┌────────────────────────────────────────────────────────────────────────┐
+│ selectedDevice->pollAll(reqSlaveId)                                    │
+│  └─► client_.readRegisters(functionCode, reg, 1, raw);                 │
+└────────────────────────────────────────────────────────────────────────┘
+               │
+               ├──► sendRequest()     ──► [Binary Frame Serialization]
+               │                                │
+               │                                ▼
+               │                     send(sockFd_, request.data(), ...)
+               │                                │
+               │                                ▼ (LAN Cable / Network)
+               │                     [ REAL MODBUS HARDWARE/PLC ]
+               │                                │
+               │                                ▼ (Hex Bytes Return)
+               │                     recv(sockFd_, out.data(), ...)
+               │                                │
+               └──► receiveResponse() ◄─────────┘
+               │
+               ▼ (Mathematical Transformation Engine)
+┌────────────────────────────────────────────────────────────────────────┐
+│ result.value = convert(readingCfg, raw);                               │
+│  ├─► uint16_t combined = (raw[0] << 8) | raw[1]; [Bit Fusion]          │
+│  └─► return (combined * 0.18) + 32.0; [Fahrenheit Formula Output]       │
+└────────────────────────────────────────────────────────────────────────┘
+               │
+               ├────────────────────────────────────────┐
+               ▼ (Auto Persistent Storage Logger)        ▼ (Web Output Delivery)
+┌────────────────────────────────────────┐   ┌───────────────────────────┐
+│ dbLogger.logReadings(...)              │   │ nlohmann::json response;  │
+│  └─► pstmt->executeUpdate();           │   │ res.set_content(          │
+│      [Saved into MySQL Relational DB]  │   │   json_response.dump(),   │
+│                                        │   │   "application/json"      │
+│                                        │   │ ); [HTTP 200 OK Response] │
+└────────────────────────────────────────┘   └──────────┬────────────────┘
+                                                        │
+ ───────────────────────────────────────────────────────┼─────────────────
+                                                        ▼
+                                               [ CHROME BROWSER ]
+                                         Displays Clean Text JSON Result:
+                                         { "value": 86.0, "status": "OK" }
+    </pre>
+
+    <div class="section-title">CORE OPERATIONAL PHASES</div>
+    <ul>
+        <li><strong>1. THE INTERCEPTION PHASE (HTTP Layer):</strong> Background-la <code>svr.listen("0.0.0.0", 8080)</code> permanent socket network thread online-la running-la irukum. Browser URL parameter hit panna odanae processing stack alert aahi triggers execute pannum.</li>
+        <li><strong>2. THE PROTOCOL SHIFT PHASE (Modbus TCP Layer):</strong> Inga network conversion logic map aahuthu. HTTP text variable arrays inputs configuration structure, pure Big Endian binary byte vector frame-ah (<code>sendRequest()</code>) transform aahi client hardware driver-ku transmission aahuthu.</li>
+        <li><strong>3. THE RESPONSE FORMATTING PHASE (JSON Layer):</strong> Hardware thara raw hex registers response parallel-ah <code>dbLogger</code> database logs execution table-kulla storage dump aagum pothae, serialization mechanism (<code>json_response.dump(4)</code>) cross aahi unga Chrome screen web client body-la clear visual block output-ah print aahuthu boss.</li>
+    </ul>
+</div>
+
+</body>
+</html>

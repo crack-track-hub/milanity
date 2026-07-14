@@ -1,0 +1,81 @@
+// Sure! 💯 Interview-ku use aagura madhiri Tanglish meanings kudukiren.
+//
+// Keyword	Tanglish Meaning
+// int	Integer data store panna use pannuvom. (Example: 10, 25, -5)
+// float	Decimal value store panna. (Example: 3.14)
+// double	float vida adhiga precision decimal values store panna.
+// char	Single character store panna. (Example: 'A', 'b')
+// bool	True illa False value store panna.
+// if	Condition true na code execute pannum.
+// else	if false na indha block execute pannum.
+// for	Fixed number of times loop execute panna.
+// while	Condition true irukkura varaikkum loop execute pannum.
+// do	Minimum oru thadava execute aagum, apram condition check pannum.
+// switch	Multiple conditions-la oru condition select panna.
+// case	switch-kulla oru specific value-ku execute aagura block.
+// break	Loop illa switch-ah immediate stop pannum.
+// continue	Current iteration skip panni next iteration-ku pogum.
+// return	Function-lendhu value return pannum illa function-ah exit pannum.
+// class	Objects create panna blueprint define pannum.
+// public	Ellarum access panna mudiyum.
+// private	Class-kulla mattum access panna mudiyum.
+// protected	Class-um derived class-um access panna mudiyum.
+// virtual	Runtime polymorphism implement panna use pannuvom.
+// const	Value change panna mudiyadhu nu define pannum.
+// static	Common/shared member create panna illa variable lifetime maintain panna use pannuvom.
+// void	Endha value-yum return pannaadha function.
+// new	Runtime-la memory allocate pannum.
+// delete	new use panni allocate panna memory free pannum.
+// try	Exception varakudiya code block.
+// catch	Exception vandha handle pannum block.
+// throw	Exception generate pannum.
+// namespace	Name conflict avoid panna grouping create pannum.
+// using	Namespace name repeated-a ezhuthaama use panna.
+// template	Generic code create panna use pannuvom.
+// typename	Template parameter oru type nu indicate pannum.
+// auto	Variable data type-ah compiler automatic-a detect pannum.
+// friend	Vera class illa function-ku private/protected members access permission kudukkum.
+// this	Current object-ah point panra pointer.
+// Easy Classification (Interview-ku romba useful)
+// 🔹 Data Type Keywords
+// int
+// float
+// double
+// char
+// bool
+// void
+// 🔹 Decision Making
+// if
+// else
+// switch
+// case
+// 🔹 Loops
+// for
+// while
+// do
+// break
+// continue
+// 🔹 OOP Keywords
+// class
+// public
+// private
+// protected
+// virtual
+// this
+// friend
+// 🔹 Memory Management
+// new
+// delete
+// 🔹 Exception Handling
+// try
+// catch
+// throw
+// 🔹 Others
+// const
+// static
+// return
+// namespace
+// using
+// template
+// typename
+// auto

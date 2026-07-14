@@ -1,0 +1,37 @@
+{
+  
+  "database": {
+    "host": "tcp://127.0.0.1:3306",
+    "user": "root",
+    "password": "milanity",
+    "schema": "industrial_iot"
+  },
+  "devices": [
+    {
+      "name": "Boiler1",
+      "ip": "192.168.0.136",
+      "port": 503,
+      "slave_id": 1,
+      "readings": [
+        { "name": "supply_temperature", "function_code": 3, "register": 6,  "type": "temperature" },
+        { "name": "heating_status",     "function_code": 2, "register": 32, "type": "discrete" },
+        { "name": "outlet_temperature", "function_code": 4, "register": 8,  "type": "temperature" },
+        { "name": "inlet_temperature",  "function_code": 4, "register": 9,  "type": "temperature" },
+        { "name": "firing_rate",        "function_code": 4, "register": 11, "type": "raw" }
+      ]
+    },
+    {
+      "name": "Boiler2",
+      "ip": "192.168.0.137",
+      "port": 502,
+      "slave_id": 1,
+      "readings": [
+        { "name": "supply_temperature", "function_code": 3, "register": 6,  "type": "temperature" },
+        { "name": "heating_status",     "function_code": 2, "register": 32, "type": "discrete" },
+        { "name": "outlet_temperature", "function_code": 4, "register": 8,  "type": "temperature" },
+        { "name": "inlet_temperature",  "function_code": 4, "register": 9,  "type": "temperature" },
+        { "name": "firing_rate",        "function_code": 4, "register": 11, "type": "raw" }
+      ]
+    }
+  ]
+}
