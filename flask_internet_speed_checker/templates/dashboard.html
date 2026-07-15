@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>NetworkPulse Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>NetworkPulse</h1>
+
+    <h3>Internet Speed Monitoring Dashboard</h3>
+
+    {% if latest %}
+
+    <div class="card">
+
+        <h2>Latest Result</h2>
+
+        <p><b>Time :</b> {{ latest.recorded_time }}</p>
+
+        <p><b>Status :</b> {{ latest.network_status }}</p>
+
+        <p><b>Download :</b> {{ latest.download_speed }} Mbps</p>
+
+        <p><b>Upload :</b> {{ latest.upload_speed }} Mbps</p>
+
+        <p><b>Test Ping :</b> {{ latest.test_ping }} ms</p>
+
+        <p><b>System Ping :</b> {{ latest.system_ping }} ms</p>
+
+    </div>
+
+    {% endif %}
+
+    <br>
+
+    <h2>History</h2>
+
+    <table>
+
+        <tr>
+
+            <th>Time</th>
+
+            <th>Download</th>
+
+            <th>Upload</th>
+
+            <th>Ping</th>
+
+            <th>Status</th>
+
+            <th>System Ping</th>
+
+        </tr>
+
+        {% for row in history %}
+
+        <tr>
+
+            <td>{{ row.recorded_time }}</td>
+
+            <td>{{ row.download_speed }}</td>
+
+            <td>{{ row.upload_speed }}</td>
+
+            <td>{{ row.test_ping }}</td>
+
+            <td>{{ row.network_status }}</td>
+
+            <td>{{ row.system_ping }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
